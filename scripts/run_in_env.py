@@ -135,6 +135,14 @@ if "VIRTUALENV_DIR" in env and path.exists(expand_var(env["VIRTUALENV_DIR"])):
         dest_file = path.join(tapset_dir, path.basename(path.splitext(source_file)[0]))
         print "  %s  ->  %s" % (source_file, dest_file)
         open(dest_file, "w").write(open(source_file, 'r').read().replace("__VIRTUALENV_PATH__", venv_dir))
+else:
+    print "NOT activating virtualenv."
+    print running_local_and_virtualenv_disabled
+    print env.get("USE_LOCAL_VENV", "False").lower()
+    print env.get("LOCAL_RUN", "False").lower()
+    print "VIRTUALENV_DIR" in env
+    print expand_var(env["VIRTUALENV_DIR"])
+    print path.exists(expand_var(env["VIRTUALENV_DIR"]))
 
 # Create the experiment output dir if necessary
 if 'OUTPUT_DIR' in env:
