@@ -46,6 +46,9 @@ from time import time
 
 from gumby.sync import ExperimentClient, ExperimentClientFactory
 from gumby.scenario import ScenarioRunner
+from gumby.log import setupLogging
+
+from twisted.python.log import msg
 
 # TODO(emilon): Make sure that the automatically chosen one is not this one in case we can avoid this.
 # The reactor needs to be imported after the dispersy client, as it is installing an EPOLL based one.
@@ -133,6 +136,8 @@ class DispersyExperimentScriptClient(ExperimentClient):
         return u"NID_secp160k1"
 
     def generateMyMember(self):
+        from Tribler.dispersy.crypto import ec_generate_key, ec_to_public_bin, ec_to_private_bin
+
         ec = ec_generate_key(self.my_member_key_curve)
         self.my_member_key = ec_to_public_bin(ec)
         self.my_member_private_key = ec_to_private_bin(ec)
