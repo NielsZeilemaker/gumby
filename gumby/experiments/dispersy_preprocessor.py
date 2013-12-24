@@ -1,6 +1,6 @@
 import os
 import sys
-from random import expovariate
+from random import expovariate, Random
 from gumby.scenario import ScenarioRunner
 
 class ScenarioPreProcessor(ScenarioRunner):
@@ -10,6 +10,8 @@ class ScenarioPreProcessor(ScenarioRunner):
 
         self._callables = {}
         self._callables['churn'] = self.churn
+        
+        self._r = Random()
 
         print >> sys.stderr, "Looking for max_timestamp, max_peer...",
         max_tstmp = max_peer = 0
@@ -51,12 +53,12 @@ class ScenarioPreProcessor(ScenarioRunner):
                 return 5.0 + expovariate(1.0 / (desired_mean - 5))
             else:
                 raise NotImplementedError('only expon churn is implemented, got %s' % churn_type)
-
+            
+        go_online = self._r.random() < 0.5
         while tstmp < max_tstmp:
-            yield "@0:%d online" % tstmp
+            yield ("@0:%d " + ("online" if go_online else"offline"))% tstmp
             tstmp += get_delay()
-            yield "@0:%d offline" % tstmp
-            tstmp += get_delay()
+            go_online = not go_online
 
 def main(inputfile, outputfile):
     if os.path.exists(inputfile):
