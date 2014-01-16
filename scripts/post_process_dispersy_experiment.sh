@@ -99,7 +99,7 @@ for R_SCRIPT in $R_SCRIPTS_TO_RUN $EXTRA_R_SCRIPTS_TO_RUN; do
             FAILED=yes
         fi
     fi
-    R --no-save --quiet --args $XMIN $XMAX < $R_SCRIPT_PATH  2>&1 > /dev/null | tee ${R_SCRIPT}.log &
+    R --no-save --quiet --args $XMIN $XMAX $R_SCRIPT < $R_SCRIPT_PATH  2>&1 > /dev/null | tee ${R_SCRIPT}.log &
 done
 
 wait
