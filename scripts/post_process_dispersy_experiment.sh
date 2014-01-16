@@ -84,6 +84,7 @@ cputimes.r
 statistics.r
 writebytes.r
 readbytes.r
+bl.r
 "
 
 # @CONF_OPTION EXTRA_R_SCRIPTS_TO_RUN: adds thoes scripts on the post processing step, they can either be on the usual scripts/r dir or on $EXPERIMENT_DIR/r/
