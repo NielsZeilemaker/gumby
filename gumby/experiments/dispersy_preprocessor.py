@@ -53,6 +53,11 @@ class ScenarioPreProcessor(ScenarioRunner):
         def get_delay(step):
             if churn_type == 'expon':
                 return min_online + expovariate(1.0 / (desired_mean - min_online))
+            elif churn_type == 'expon_rest':
+                delay = sys.maxint
+                while desired_mean - 100 > delay or delay > desired_mean + 100:
+                    delay = min_online + expovariate(1.0 / (desired_mean - min_online))
+                return delay
             elif churn_type == 'fixed':
                 if step == 1:
                     return randint(min_online, desired_mean)
